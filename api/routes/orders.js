@@ -10,6 +10,9 @@ const Product = require('../models/product');
 router.get('/', (req, res, next) => {
    order.find()
    .select('product quantity _id')
+   //populating orders to fetch all information on orders.
+   .populate('product')
+//End of populate argument
    .exec()
    .then(docs => {
        res.status(200).json({
@@ -76,17 +79,52 @@ router.post('/', (req, res, next) => {
 
 
 router.get('/:orderId', (req, res, next) => {
-        res.status(200).json({
-            message: 'Order details',
-            orderId: req.params.orderId
+        order.findById(req.params.orderId)
+    //populate argument to get oder detals
+        .populate('product')
+    //End of populate argument
+        .exec()
+        .then(order => {
+            if(!order) {
+               return res.status(404).json({
+                    message: 'Order not found'
+                });
+            }
+            res.status(200).json({
+                order: order,
+                request:{
+                    type: 'GET',
+                    url: 'http://localhost:3000/orders'
+                }
+            })
+        })
+        .catch(err => {
+            res.status(500).json({
+                err: err
+            });
         });
 });
 
 router.delete('/:orderId', (req, res, next) => {
-    res.status(200).json({
-        message: 'Order deleted',
-        orderId: req.params.orderId
+    order.remove({_id: params.orderId})
+    .exec()
+    .then(result => {
+        res.status(200).json({
+            message: 'Order deleted',
+            request:{
+                type: 'POST',
+                url: 'http://localhost:3000/orders',
+                body: {productId: 'ID', quantity: 'Number'}
+            }
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            err: err
+        });
     });
+
+
 });
 
 
