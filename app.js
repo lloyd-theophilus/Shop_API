@@ -7,7 +7,6 @@ const app = express();
 
 const productRoutes = require('./api/routes/products');
 const orderRoutes = require('./api/routes/orders');
-const userRoutes = require('./api/routes/user');
 
 //morgan package to handle all routes
 app.use(morgan('dev'));
@@ -32,7 +31,6 @@ app.use((req, res, next) => {
 //routes which should handle request
 app.use('/products', productRoutes);
 app.use('/orders', orderRoutes);
-app.use('/user', userRoutes);
 
 //Error handling functions
 app.use((req, res, next) => {
@@ -50,4 +48,4 @@ app.use((error, req, res, next) => {
     });
 });
 
-module.exports = app
+module.exports = app;
