@@ -4,9 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
-const user = require('../models/user');
 
-router.post('/signup', (req, res, next) => {
+router.post('/signup', (req, res) => {
     //validating user details at signup
     User.find({email: req.body.email})
     .exec()
