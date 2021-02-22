@@ -11,9 +11,10 @@ router.post('/signup', (req, res, next) => {
     User.find({email: req.body.email})
     .exec()
     .then(user => {
+        //creating new user of the user details length is greater or equal to 1
         if(user.length >= 1){
             res.status(409).json({
-                message: 'User email or password already exists'
+                message: 'User email already exists.'
             });
         } else{
              //hashing user passwords at signup
