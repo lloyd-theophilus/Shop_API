@@ -49,5 +49,20 @@ router.post('/signup', (req, res) => {
 
 });
 
-
+router.delete('/:userId', (req, res, next) =>{
+    User.remove({_id: req.params.userId})
+    .exec()
+    .then(result => {
+        console.log(result);
+        res.status(200).json({
+            message: 'User deleted successfully!'
+        });
+    })
+    .catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            err: err
+        });
+    });
+});
 module.exports = router;
